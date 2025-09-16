@@ -614,7 +614,10 @@ class Hulaquan(BasePlugin):
             await msg.reply_text("【因数据自动刷新间隔较短，目前已不支持-R参数】")
         if isinstance(msg, PrivateMessage):
             await msg.reply_text("查询中，请稍后…")
-        result = await Hlq.on_message_tickets_query(event_name, show_cast=("-c" in args), ignore_sold_out=("-i" in args), refresh=False, show_ticket_id=('-t' in args))
+        pattern = r"-(\d+)"
+        extra_ids = [re.search(pattern, item).group(1) for item in args if re.search(pattern, item)]
+        extra_id = extra_ids[0] if extra_ids else None
+        result = await Hlq.on_message_tickets_query(event_name, show_cast=("-c" in args), ignore_sold_out=("-i" in args), refresh=False, show_ticket_id=('-t' in args), extra_id=extra_id)
         await msg.reply_text(result if result else "未找到相关信息，请尝试更换搜索名")
         
 

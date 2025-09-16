@@ -54,7 +54,7 @@ class ExchangeMatcher:
                     typ_want: TicketItem
                     typ_offer: TicketItem
                     if typ_offer.event_id == typ_want.event_id:
-                    
+                        pass
                 else:
                     return True
                 
