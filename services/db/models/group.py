@@ -1,24 +1,21 @@
-# services/db/models/group.py
-from typing import Optional, List
-from sqlmodel import SQLModel, Field, Relationship
+"""群组相关模型。"""
+from __future__ import annotations
 
-from .base import TimeStamped, SoftDelete, GroupType
+from typing import Optional
 
-class Group(SQLModel, TimeStamped, SoftDelete, table=True):
-    group_id: str = Field(primary_key=True)
-    name: Optional[str] = None
-    group_type: GroupType = Field(default=GroupType.BROADCAST)
-    active: bool = Field(default=True)
-    members: List["Membership"] = Relationship(back_populates="group")
+from sqlmodel import Field, SQLModel
 
-class Membership(SQLModel, TimeStamped, table=True):
-    """用户-群 关系；多对多中间表。"""
-    id: Optional[int] = Field(default=None, primary_key=True)
-    user_id: str = Field(foreign_key="user.user_id", index=True)
-    group_id: str = Field(foreign_key="group.group_id", index=True)
+from .base import GroupType, SoftDelete, TimeStamped
 
-    is_admin: bool = Field(default=False)
-    receive_broadcast: bool = Field(default=True)
 
-    user: "User" = Relationship(back_populates="memberships")
-    group: "Group" = Relationship(back_populates="members")
+class Group(TimeStamped, SoftDelete, SQLModel, table=True):
+    """机器人服务所需的 QQ 群信息。"""
+
+    __tablename__ = "groups"
+
+    group_id: str = Field(primary_key=True, description="QQ群号")
+    name: Optional[str] = Field(default=None, description="群名称")
+    group_type: GroupType = Field(
+        default=GroupType.BROADCAST, description="群组类型"
+    )
+    active: bool = Field(default=True, description="是否仍参与服务")

@@ -207,3 +207,5 @@ testment.py
 replace.txt
 error_announcement_cache/
 update_data_cache/
+!docs/verification_guide.md
+!docs/branch_overview.md
