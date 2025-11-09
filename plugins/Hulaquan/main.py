@@ -597,9 +597,11 @@ class Hulaquan(BasePlugin):
                 stat_pfx = PREFIXES[stat]
                 stats_ps.append(stat_pfx)
                 t_m = [tickets[t]['message'] for t in t_ids]
-                m = f"{stat_pfx}提醒：\n{'\n'.join(t_m)}"
+                joined_messages = "\n".join(t_m)
+                m = f"{stat_pfx}提醒：\n{joined_messages}"
                 messages[-1].append(m)
-            messages[-1][0] = f"{"|".join(stats_ps)}提醒：\n" + messages[-1][0]
+            stats_prefix = "|".join(stats_ps)
+            messages[-1][0] = f"{stats_prefix}提醒：\n" + messages[-1][0]
         return messages
         
     def register_pending_tickets_announcer(self):
